@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DripWorld - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .logo {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 10px;
+            }
+            nav ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 1em;
+            }
+            nav ul li a:hover {
+                text-decoration: underline;
+            }
+            .slider-container {
+                position: relative;
+                max-width: 100%;
+                overflow: hidden;
+                margin: auto;
+            }
+            .slides {
+                display: flex;
+                transition: transform 1s ease-in-out;
+            }
+            .slides img {
+                width: 100%;
+                flex-shrink: 0;
+            }
+            footer {
+                background-color: #333;
+                color: white;
+                padding: 10px;
+            }
+            </style>
+            </head>
+            <body>
+                <header>
+                    <nav class="navbar">
+                        <div class="logo">DripWorld</div>
+                        <ul class="nav-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="products.html">Products</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </nav>
+                </header>
+
+    <main>
+        <h1>Our Products</h1>
+        <div class="products">
+            <div class="product">
+                <img src="https://ev8style.com/cdn/shop/files/IMG_6442_e68de708-893e-46cd-85e2-5bacd9053265.jpg?v=1727805616&width=1080" style=width:200px height="200" alt="Rope Lace Airforce 1">
+                <h3>Rope Lace Airforce 1</h3>
+                <p>Price: $10</p>
+                <button onclick="addToCart('Rope Lace Airforce 1', 10)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://www.crepslocker.com/cdn/shop/files/palace-x-c.p.-company-bright-cobalt-puffer-jacket-ow003a006099a867-front-1.webp?v=1702552325" style=width:200px height="200" alt="CP Company Jacket">
+                <h3>CP Company Jacket</h3>
+                <p>Price: $15</p>
+                <button onclick="addToCart('CP Company Jacket', 15)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://www.victoriajacket.com/wp-content/uploads/2024/01/Supreme-True-Religion-Black-Hoodie.jpg" style=width:200px height="200" alt="Supreme Hoodie">
+                <h3>Supreme Hoodie</h3>
+                <p>Price: $20</p>
+                <button onclick="addToCart('Supreme Hoodie', 20)">Add to Cart</button>
+                            </div>
+                        </div>
+                    </main>
+
+                    <footer>
+                        <p>&copy; 2024 DripWorld. All rights reserved.</p>
+                    </footer>
+
+                    <script>
+                        function addToCart(productName, price) {
+                            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                            cart.push({ name: productName, price: price });
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            alert(`${productName} has been added to your cart!`);
+                        }
+                    </script>
+                </body>
+                </html>

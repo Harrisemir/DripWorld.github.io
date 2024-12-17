@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DripWorld - Home</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+            nav {
+                background-color: #333;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            nav .logo {
+                color: white;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+            nav ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+            }
+            nav ul li {
+                margin: 0 10px;
+                }
+                nav ul li a {
+                    color: white;
+                    text-decoration: none;
+                    font-size: 1em;
+                }
+                nav ul li a:hover {
+                    text-decoration: underline;
+                }
+                .slider-container {
+                    position: relative;
+                    max-width: 100%;
+                    overflow: hidden;
+                    margin: auto;
+                }
+                .slides {
+                    display: flex;
+                    transition: transform 1s ease-in-out;
+                }
+                .slides img {
+                    width: 100%;
+                    flex-shrink: 0;
+                }
+                footer {
+                    background-color: #333;
+                    color: white;
+                    padding: 10px;
+                }
+                </style>
+                </head>
+                <body>
+                    <header>
+                        <nav class="navbar">
+                            <div class="logo">DripWorld</div>
+                            <ul class="nav-links">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="cart.html">Cart</a></li>
+                            </ul>
+                        </nav>
+                    </header>
+
+        <main>
+            <h1>Your Cart</h1>
+            <div class="cart-container" id="cart-container">
+                <!-- Cart items will appear here -->
+            </div>
+            <div class="total" id="total">Total: $0</div>
+
+            <div class="currency-converter">
+                <label for="currency">Convert Total To:</label>
+                <select id="currency" onchange="convertCurrency()">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                </select>
+                <p id="converted-total"></p>
+            </div>
+
+            <button class="checkout-button" onclick="generateReceipt()">Proceed to Checkout</button>
+
+            <div class="order-details" id="order-details">
+                <h3>Order Details</h3>
+                <p id="receipt-number"></p>
+                <p id="order-note"></p>
+                <p id="delivery-time"></p>
+                <p>Thank you for shopping with DripWorld!</p>
+                </div>
+                </main>
+
+                <footer>
+                <p>&copy; 2024 DripWorld All rights reserved.</p>
+                </footer>
+
+                <script>
+                const cartContainer = document.getElementById('cart-container');
+                const totalDisplay = document.getElementById('total');
+                const orderDetails = document.getElementById('order-details');
+                const convertedTotalDisplay = document.getElementById('converted-total');
+                let totalAmount = 0;
+
+                function displayCart() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cartContainer.innerHTML = ''; // Clear cart
+                totalAmount = 0;
+
+                cart.forEach((item, index) => {
+                    totalAmount += item.price;
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <span>${item.name} - $${item.price}</span>
+                        <button onclick="removeFromCart(${index})">Remove</button>
+                    `;
+                    cartContainer.appendChild(cartItem);
+                });
+
+                totalDisplay.textContent = `Total: $${totalAmount}`;
+                        }
+
+                        function removeFromCart(index) {
+                            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                            cart.splice(index, 1);
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            displayCart();
+                        }
+
+                        async function convertCurrency() {
+                            const currency = document.getElementById('currency').value;
+                            const apiUrl = `https://api.exchangerate-api.com/v4/latest/USD`;
+                            try {
+                                const response = await fetch(apiUrl);
+                                const data = await response.json();
+                                const rate = data.rates[currency];
+                                const convertedTotal = (totalAmount * rate).toFixed(2);
+                                convertedTotalDisplay.textContent = `Converted Total: ${currency} ${convertedTotal}`;
+                            } catch (error) {
+                                convertedTotalDisplay.textContent = "Error converting currency. Try again later.";
+                            }
+                        }
+
+                        function generateReceipt() {
+                            const receiptNumber = Math.floor(100000 + Math.random() * 900000);
+                            const deliveryTime = new Date();
+                            deliveryTime.setDate(deliveryTime.getDate() + 3); // Adds 3 days for delivery
+
+                            document.getElementById('receipt-number').textContent = `Receipt Number: #${receiptNumber}`;
+                            document.getElementById('order-note').textContent = "Your order is being processed and will be dispatched soon.";
+                            document.getElementById('delivery-time').textContent = `Expected Delivery: ${deliveryTime.toDateString()}`;
+                            orderDetails.style.display = 'block';
+                        }
+
+                        // Initialize cart display
+                        displayCart();
+                    </script>
+        </body>
+        </html>
